@@ -1,39 +1,27 @@
 import requests
-import urllib3
-
-URL = 'https://petstore.swagger.io/v2/swagger.json'
-_session = requests.session()
+import api_functions
 
 
-def post_function(data):
-    x = _session.post(URL, data)
-    print("-----request begins-----\n")
-    print(x.request.body)
-    print("\n-----request ends-----\n")
-    print("-----response begins-----\n")
-    print(x.text)
-    print("\n-----response ends-----\n")
-    return x
+ApiFunctions = api_functions.ApiFunctions
+url = 'https://petstore.swagger.io/v2/swagger.json'
+_session = ApiFunctions.Session
 
 
 def put_pet():
-    data = {"id": 0,
-            "category": {
-                "id": 0,
-                "name": "string"
-            },
-            "name": "doggie",
-            "photoUrls": [
-                "string"
-            ],
-            "tags": [{
-                "id": 0,
-                "name": "string"
-            }],
-            "status": "available"
-            }
+    request_data = dict()
+    request_data['id'] = 0
+    request_data['category'] = {'id': 0,
+                                'name': 'string'
+                                }
+    request_data['name'] = 'doggie'
+    request_data['photoUrls'] = ['string']
+    request_data['tags'] = [{'id': 0,
+                             'name': 'string'
+                             }]
+    request_data['status'] = 'available'
 
-    response = post_function(data)
+    response = ApiFunctions.post_function(url, request_data)
     print(response.status_code)
+
 
 put_pet()
